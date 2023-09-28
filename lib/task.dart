@@ -7,16 +7,34 @@ class Task {
   final String notes;
   final DateTime? selectedDate;
   final TimeOfDay? selectedTime;
-  bool
-      completed; // Tambahkan properti untuk menandai apakah tugas sudah selesai atau belum
+  bool completed;
+  late DateTime combinedDateTime;
 
   Task({
     required this.title,
     required this.notes,
     this.selectedDate,
     this.selectedTime,
-    this.completed = false, // Defaultnya tugas belum selesai
-  });
+    this.completed = false,
+  }) {
+    if (selectedDate != null && selectedTime != null) {
+      combinedDateTime = DateTime(
+        selectedDate!.year,
+        selectedDate!.month,
+        selectedDate!.day,
+        selectedTime!.hour,
+        selectedTime!.minute,
+      );
+    } else if (selectedDate != null) {
+      combinedDateTime = DateTime(
+        selectedDate!.year,
+        selectedDate!.month,
+        selectedDate!.day,
+      );
+    } else {
+      combinedDateTime = DateTime.now();
+    }
+  }
 }
 
 class TaskPage extends StatefulWidget {
@@ -25,14 +43,12 @@ class TaskPage extends StatefulWidget {
   const TaskPage({Key? key, required this.boardTitle}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _TaskPageState createState() => _TaskPageState();
 }
 
 class _TaskPageState extends State<TaskPage> {
   final List<Task> tasks = [];
 
-  // ignore: unused_element
   Future<Task?> _showEditTaskDialog(Task task) async {
     final editedTask = await showDialog<Task>(
       context: context,
@@ -40,6 +56,18 @@ class _TaskPageState extends State<TaskPage> {
         return EditTaskDialog(task: task);
       },
     );
+
+    if (editedTask != null) {
+      setState(() {
+        // ignore: unnecessary_null_comparison
+        if (task == null) {
+          tasks.add(editedTask);
+        } else {
+          tasks[tasks.indexOf(task)] = editedTask;
+        }
+        tasks.sort((a, b) => a.combinedDateTime.compareTo(b.combinedDateTime));
+      });
+    }
 
     return editedTask;
   }
@@ -74,7 +102,6 @@ class _TaskPageState extends State<TaskPage> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                // ignore: unnecessary_string_interpolations
                 'Board: ${widget.boardTitle}',
                 style: const TextStyle(
                   fontSize: 25,
@@ -93,23 +120,61 @@ class _TaskPageState extends State<TaskPage> {
               itemCount: tasks.length,
               itemBuilder: (context, index) {
                 final task = tasks[index];
+                String dateText = '';
+                if (task.selectedDate != null) {
+                  if (isSameDay(task.selectedDate!, DateTime.now())) {
+                    dateText = 'Hari Ini';
+                  } else {
+                    dateText = DateFormat.yMMMd().format(task.selectedDate!);
+                  }
+                }
                 return Dismissible(
                   key: Key(task.title),
                   direction: DismissDirection.horizontal,
                   onDismissed: (direction) async {
                     if (direction == DismissDirection.endToStart) {
-                      setState(() {
-                        tasks.removeAt(index);
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Deleted Successfully!'),
-                          duration: Duration(seconds: 2),
-                        ),
+                      bool? deleteConfirmed = await showDialog<bool>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Delete Task'),
+                            content: const Text(
+                                'Are you sure you want to delete this task?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(false);
+                                },
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(true);
+                                },
+                                child: const Text('Delete'),
+                              ),
+                            ],
+                          );
+                        },
                       );
+
+                      if (deleteConfirmed == true) {
+                        setState(() {
+                          tasks.removeAt(index);
+                        });
+                        // ignore: use_build_context_synchronously
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Deleted Successfully!'),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      }
                     } else if (direction == DismissDirection.startToEnd) {
                       final editedTask = await _showEditTaskDialog(
-                          task); // Tunggu hasil dari _showEditTaskDialog
+                          task);
                       if (editedTask != null) {
                         setState(() {
                           tasks[index] = editedTask;
@@ -149,8 +214,7 @@ class _TaskPageState extends State<TaskPage> {
                           ),
                         ),
                         Text(
-                          // ignore: unnecessary_string_interpolations
-                          '${task.selectedDate == null ? '' : DateFormat.yMMMd().format(task.selectedDate!)}',
+                          dateText,
                           style: TextStyle(
                             decoration: task.completed
                                 ? TextDecoration.lineThrough
@@ -172,6 +236,10 @@ class _TaskPageState extends State<TaskPage> {
                     onChanged: (isChecked) {
                       setState(() {
                         task.completed = isChecked!;
+                        if (task.completed) {
+                          tasks.removeAt(index);
+                          tasks.add(task);
+                        }
                       });
                     },
                     controlAffinity: ListTileControlAffinity.leading,
@@ -208,6 +276,18 @@ class _TaskPageState extends State<TaskPage> {
       ),
     );
   }
+
+  bool isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    tasks.sort((a, b) => a.combinedDateTime.compareTo(b.combinedDateTime));
+  }
 }
 
 class TaskFormDialog extends StatefulWidget {
@@ -225,6 +305,7 @@ class _TaskFormDialogState extends State<TaskFormDialog> {
   String notes = '';
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
+  bool isTodaySelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -253,6 +334,23 @@ class _TaskFormDialogState extends State<TaskFormDialog> {
               },
             ),
             const SizedBox(height: 16),
+            Row(
+              children: [
+                Checkbox(
+                  value: isTodaySelected,
+                  onChanged: (value) {
+                    setState(() {
+                      isTodaySelected = value!;
+                      if (isTodaySelected) {
+                        selectedDate =
+                            DateTime.now();
+                      }
+                    });
+                  },
+                ),
+                const Text('Hari Ini'),
+              ],
+            ),
             Row(
               children: [
                 Text(
@@ -330,7 +428,6 @@ class _TaskFormDialogState extends State<TaskFormDialog> {
           },
           child: const Text('Add'),
         ),
-        
       ],
     );
   }
@@ -446,7 +543,7 @@ class _EditTaskDialogState extends State<EditTaskDialog> {
             TextButton(
               onPressed: () {
                 Navigator.of(context)
-                    .pop(); // Tutup dialog tanpa menyimpan perubahan
+                    .pop();
               },
               child: const Text('Cancel'),
             ),
@@ -461,7 +558,7 @@ class _EditTaskDialogState extends State<EditTaskDialog> {
                   completed: widget.task.completed,
                 );
                 Navigator.of(context)
-                    .pop(editedTask); // Tutup dialog dan kirim data yang diedit
+                    .pop(editedTask);
               },
               child: const Text('Save'),
             ),

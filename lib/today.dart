@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
-class TodayPage extends StatelessWidget {
+class TodayPage extends StatefulWidget {
   const TodayPage({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _TodayPageState createState() => _TodayPageState();
+}
+
+class _TodayPageState extends State<TodayPage> {
+  bool isTaskCompleted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +34,9 @@ class TodayPage extends StatelessWidget {
         ]),
       ),
       backgroundColor: const Color.fromARGB(255, 242, 238, 243),
-      body: const Column(
+      body: Column(
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(top: 12.0, left: 20.0),
             child: Align(
               alignment: Alignment.centerLeft,
@@ -40,13 +48,77 @@ class TodayPage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 8),
-          Divider(
+          const SizedBox(height: 8),
+          const Divider(
             thickness: 2.0,
             indent: 20.0,
             endIndent: 20.0,
           ),
-          
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                Column(
+                  children: [
+                    Checkbox(
+                      value: isTaskCompleted,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isTaskCompleted = value ?? false;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 16),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Tugas Math',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: isTaskCompleted
+                            ? FontWeight.normal
+                            : FontWeight.bold,
+                        decoration: isTaskCompleted
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
+                      ),
+                    ),
+                    Text(
+                      'Hal 90',
+                      style: TextStyle(
+                        fontSize: 15,
+                        decoration: isTaskCompleted
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
+                      ),
+                    ),
+                    Text(
+                      'Hari ini',
+                      style: TextStyle(
+                        fontSize: 15,
+                        decoration: isTaskCompleted
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
+                      ),
+                    ),
+                    Text(
+                      '19:00',
+                      style: TextStyle(
+                        fontSize: 15,
+                        decoration: isTaskCompleted
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

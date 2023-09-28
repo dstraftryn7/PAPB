@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'alltask.dart';
 import 'scheduled.dart';
 import 'task.dart';
@@ -25,7 +24,6 @@ class UTaskHomePage extends StatefulWidget {
   const UTaskHomePage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _UTaskHomePageState createState() => _UTaskHomePageState();
 }
 
@@ -75,20 +73,20 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirm LogOut'),
-          content: Text('Are you sure?'),
+          title: const Text('Confirm LogOut'),
+          content: const Text('Are you sure?'),
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(false); // Batal logout
+                Navigator.of(context).pop(false);
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(true); // Konfirmasi logout
+                Navigator.of(context).pop(true);
               },
-              child: Text('Yes'),
+              child: const Text('Yes'),
             ),
           ],
         );
@@ -96,7 +94,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
     );
 
     if (logoutConfirmed == true) {
-      // Navigasi ke halaman login di sini
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, '/login');
     }
   }
@@ -105,7 +103,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 242, 238, 243),
+        backgroundColor: const Color.fromARGB(255, 242, 238, 243),
         elevation: 0,
         title: Row(children: [
           Image.asset(
@@ -118,23 +116,23 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
             'U-TASK',
             style: TextStyle(
               fontSize: 27,
-              color: const Color.fromARGB(255, 202, 172, 205),
+              color: Color.fromARGB(255, 202, 172, 205),
             ),
           ),
-          Spacer(),
+          const Spacer(),
           IconButton(
-            icon: Icon(
-              Icons.exit_to_app, // Ikon logout
-              color: const Color.fromARGB(
-                  255, 0, 0, 0), // Warna ikon sesuai kebutuhan
+            icon: const Icon(
+              Icons.exit_to_app,
+              color: Color.fromARGB(
+                  255, 0, 0, 0),
             ),
             onPressed: () {
-              _showLogoutConfirmation(context); // Tampilkan konfirmasi logout
+              _showLogoutConfirmation(context);
             },
           ),
         ]),
       ),
-      backgroundColor: Color.fromARGB(255, 242, 238, 243),
+      backgroundColor: const Color.fromARGB(255, 242, 238, 243),
       body: Column(
         children: [
           const SizedBox(height: 16),
@@ -145,16 +143,76 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const TodayPage(),
+                      builder: (context) =>  TodayPage(),
                     ),
                   );
                 },
-                child: _buildTaskCategory('Today', Icons.calendar_month),
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: const Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.calendar_month),
+                            SizedBox(height: 4),
+                            Text('Today'),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: SizedBox(),
+                      ),
+                      Text(
+                        '1',
+                        style: TextStyle(fontSize: 15), // Ubah ukuran font menjadi 18 (sesuaikan dengan yang Anda inginkan)
+                      ),
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(width: 16),
               InkWell(
                 onTap: _navigateToScheduledPage,
-                child: _buildTaskCategory('Scheduled', Icons.timer),
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: const Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.timer),
+                            SizedBox(height: 4),
+                            Text('Scheduled'),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: SizedBox(),
+                      ),
+                      Text(
+                        '2',
+                        style: TextStyle(fontSize: 15), // Ubah ukuran font menjadi 18 (sesuaikan dengan yang Anda inginkan)
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
@@ -168,30 +226,34 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
               );
             },
             child: Container(
+              padding: const EdgeInsets.all(8),
               width: MediaQuery.of(context).size.width * 0.83,
               height: 80,
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 255, 255, 255),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.all_inbox,
-                      color: Colors.black,
+              child: const Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(Icons.all_inbox),
+                        SizedBox(height: 4),
+                        Text('All Task'),
+                      ],
                     ),
-                    SizedBox(height: 8),
-                    Text(
-                      'All Tasks',
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                  Expanded(
+                    child: SizedBox(),
+                  ),
+                  Text(
+                    '3',
+                    style: TextStyle(fontSize: 15), // Ubah ukuran font menjadi 18 (sesuaikan dengan yang Anda inginkan)
+                  ),
+                ],
               ),
             ),
           ),
@@ -211,14 +273,11 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
           ),
           const SizedBox(height: 16),
           Expanded(
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.83,
-              child: ListView.builder(
-                itemCount: boards.length,
-                itemBuilder: (context, index) {
-                  return _buildBoardContainer(boards[index], index);
-                },
-              ),
+            child: ListView.builder(
+              itemCount: boards.length,
+              itemBuilder: (context, index) {
+                return _buildBoardContainer(boards[index], index);
+              },
             ),
           ),
         ],
@@ -282,34 +341,6 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
         },
         backgroundColor: const Color.fromARGB(255, 202, 172, 205),
         child: const Icon(Icons.add),
-      ),
-    );
-  }
-
-  Widget _buildTaskCategory(String title, IconData icon) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.4,
-      height: 80,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            color: Colors.black,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.normal,
-              color: Colors.black,
-            ),
-          ),
-        ],
       ),
     );
   }

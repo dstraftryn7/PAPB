@@ -9,7 +9,7 @@ class RegisterScreen extends StatelessWidget {
       backgroundColor: const Color.fromARGB(255, 242, 238, 243),
       body: Center(
         child: Container(
-          padding: const EdgeInsets.all(30.0), // Padding untuk Container
+          padding: const EdgeInsets.all(30.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -42,7 +42,7 @@ class RegisterScreen extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context); // Kembali ke halaman login
+                  Navigator.pop(context);
                 },
                 child: const Text('Already have an account? Login here'),
               ),

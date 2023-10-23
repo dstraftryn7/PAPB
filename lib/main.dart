@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'login.dart';
 import 'home.dart';
 import 'register.dart';
+import 'profile.dart';
 
 void main() {
   runApp(const UTaskApp());
@@ -23,6 +24,7 @@ class UTaskApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
         '/home': (context) => const UTaskHomePage(),
+        '/profile': (context) => const ProfileScreen(),
       },
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'alltask.dart';
 import 'scheduled.dart';
 import 'task.dart';
@@ -24,6 +25,7 @@ class UTaskHomePage extends StatefulWidget {
   const UTaskHomePage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _UTaskHomePageState createState() => _UTaskHomePageState();
 }
 
@@ -122,9 +124,18 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
           const Spacer(),
           IconButton(
             icon: const Icon(
+              Icons.person,
+              color: Color.fromARGB(255, 117, 117, 117),
+            ),
+            onPressed: () {
+              // Fungsi untuk mengarahkan ke halaman profile.dart
+              Navigator.pushNamed(context, '/profile');
+            },
+          ),
+          IconButton(
+            icon: const Icon(
               Icons.exit_to_app,
-              color: Color.fromARGB(
-                  255, 0, 0, 0),
+              color: Color.fromARGB(255, 0, 0, 0),
             ),
             onPressed: () {
               _showLogoutConfirmation(context);
@@ -143,7 +154,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) =>  TodayPage(),
+                      builder: (context) => const TodayPage(),
                     ),
                   );
                 },
@@ -173,7 +184,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
                       ),
                       Text(
                         '1',
-                        style: TextStyle(fontSize: 15), // Ubah ukuran font menjadi 18 (sesuaikan dengan yang Anda inginkan)
+                        style: TextStyle(fontSize: 15),
                       ),
                     ],
                   ),
@@ -208,7 +219,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
                       ),
                       Text(
                         '2',
-                        style: TextStyle(fontSize: 15), // Ubah ukuran font menjadi 18 (sesuaikan dengan yang Anda inginkan)
+                        style: TextStyle(fontSize: 15),
                       ),
                     ],
                   ),
@@ -251,7 +262,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
                   ),
                   Text(
                     '3',
-                    style: TextStyle(fontSize: 15), // Ubah ukuran font menjadi 18 (sesuaikan dengan yang Anda inginkan)
+                    style: TextStyle(fontSize: 15),
                   ),
                 ],
               ),
@@ -273,11 +284,14 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
           ),
           const SizedBox(height: 16),
           Expanded(
-            child: ListView.builder(
-              itemCount: boards.length,
-              itemBuilder: (context, index) {
-                return _buildBoardContainer(boards[index], index);
-              },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: ListView.builder(
+                itemCount: boards.length,
+                itemBuilder: (context, index) {
+                  return _buildBoardContainer(boards[index], index);
+                },
+              ),
             ),
           ),
         ],

@@ -13,24 +13,31 @@ class RegisterScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image.asset('assets/logo.png',
+              Image.asset(
+                'assets/logo.png',
                 width: 150,
                 height: 150,
               ),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Username'),
+                decoration: const InputDecoration(
+                  labelText: 'Username',
+                  prefixIcon: Icon(Icons.person),
+                ),
               ),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  prefixIcon: Icon(Icons.email),
+                ),
               ),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Password'),
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                  prefixIcon: Icon(Icons.lock),
+                ),
                 obscureText: true,
               ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Confirm Password'),
-                obscureText: true,
-              ),
+              const SizedBox(height: 6),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushReplacementNamed(context, '/home');
@@ -40,11 +47,15 @@ class RegisterScreen extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
+              const SizedBox(height: 6),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('Already have an account? Login here'),
+                child: const Text(
+                  'Already have an account? Login here',
+                  style: TextStyle(color: Color.fromARGB(255, 103, 65, 136)),
+                ),
               ),
             ],
           ),

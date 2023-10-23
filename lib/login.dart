@@ -15,17 +15,24 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Image.asset('assets/logo.png',
-                width: 150,
-                height: 150,
+                Image.asset(
+                  'assets/logo.png',
+                  width: 150,
+                  height: 150,
                 ),
                 const SizedBox(height: 15),
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Username'),
+                  decoration: const InputDecoration(
+                    labelText: 'Username',
+                    prefixIcon: Icon(Icons.person),
+                  ),
                 ),
                 const SizedBox(height: 15),
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Password'),
+                  decoration: const InputDecoration(
+                    labelText: 'Password',
+                    prefixIcon: Icon(Icons.lock),
+                  ),
                   obscureText: true,
                 ),
                 const SizedBox(height: 15),
@@ -43,7 +50,9 @@ class LoginScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushNamed(context, '/register');
                   },
-                  child: const Text('Don''t'' have an account yet? Register here'),
+                  child: const Text("Don't have an account yet? Register here",
+                    style: TextStyle(color: Color.fromARGB(255, 103, 65, 136)),
+                  ),
                 ),
               ],
             ),

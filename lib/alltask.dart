@@ -4,6 +4,7 @@ class AllTasksPage extends StatefulWidget {
   const AllTasksPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AllTasksPageState createState() => _AllTasksPageState();
 }
 
@@ -78,29 +79,39 @@ class _AllTasksPageState extends State<AllTasksPage> {
                       'Tugas Math',
                       style: TextStyle(
                         fontSize: 15,
-                        fontWeight: taskCompletedStatusList[0] ? FontWeight.bold : FontWeight.bold,
-                        decoration: taskCompletedStatusList[0] ? TextDecoration.lineThrough : TextDecoration.none,
+                        fontWeight: taskCompletedStatusList[0]
+                            ? FontWeight.bold
+                            : FontWeight.bold,
+                        decoration: taskCompletedStatusList[0]
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
                       ),
                     ),
                     Text(
                       'Hal 90',
                       style: TextStyle(
                         fontSize: 15,
-                        decoration: taskCompletedStatusList[0] ? TextDecoration.lineThrough : TextDecoration.none,
+                        decoration: taskCompletedStatusList[0]
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
                       ),
                     ),
                     Text(
                       'Hari ini',
                       style: TextStyle(
                         fontSize: 15,
-                        decoration: taskCompletedStatusList[0] ? TextDecoration.lineThrough : TextDecoration.none,
+                        decoration: taskCompletedStatusList[0]
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
                       ),
                     ),
                     Text(
                       '19:00',
                       style: TextStyle(
                         fontSize: 15,
-                        decoration: taskCompletedStatusList[0] ? TextDecoration.lineThrough : TextDecoration.none,
+                        decoration: taskCompletedStatusList[0]
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
                       ),
                     ),
                   ],
@@ -133,26 +144,39 @@ class _AllTasksPageState extends State<AllTasksPage> {
                       'Ngajar Ngaji',
                       style: TextStyle(
                         fontSize: 15,
-                        fontWeight: taskCompletedStatusList[1] ? FontWeight.bold : FontWeight.bold,
-                        decoration: taskCompletedStatusList[1] ? TextDecoration.lineThrough : TextDecoration.none,
+                        fontWeight: taskCompletedStatusList[1]
+                            ? FontWeight.bold
+                            : FontWeight.bold,
+                        decoration: taskCompletedStatusList[1]
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
                       ),
                     ),
                     Text(
                       'TPA AL-IKHLAS',
                       style: TextStyle(
-                        fontSize: 15, decoration: taskCompletedStatusList[1] ? TextDecoration.lineThrough : TextDecoration.none,
+                        fontSize: 15,
+                        decoration: taskCompletedStatusList[1]
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
                       ),
                     ),
                     Text(
                       'Oct 1, 2023',
                       style: TextStyle(
-                        fontSize: 15, decoration: taskCompletedStatusList[1] ? TextDecoration.lineThrough : TextDecoration.none,
+                        fontSize: 15,
+                        decoration: taskCompletedStatusList[1]
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
                       ),
                     ),
                     Text(
                       '16:00',
                       style: TextStyle(
-                        fontSize: 15, decoration: taskCompletedStatusList[1] ? TextDecoration.lineThrough : TextDecoration.none,
+                        fontSize: 15,
+                        decoration: taskCompletedStatusList[1]
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
                       ),
                     ),
                   ],
@@ -185,26 +209,39 @@ class _AllTasksPageState extends State<AllTasksPage> {
                       'IPA',
                       style: TextStyle(
                         fontSize: 15,
-                        fontWeight: taskCompletedStatusList[2] ? FontWeight.bold : FontWeight.bold,
-                        decoration: taskCompletedStatusList[2] ? TextDecoration.lineThrough : TextDecoration.none,
+                        fontWeight: taskCompletedStatusList[2]
+                            ? FontWeight.bold
+                            : FontWeight.bold,
+                        decoration: taskCompletedStatusList[2]
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
                       ),
                     ),
                     Text(
                       'Tugas Biologi',
                       style: TextStyle(
-                        fontSize: 15, decoration: taskCompletedStatusList[2] ? TextDecoration.lineThrough : TextDecoration.none,
+                        fontSize: 15,
+                        decoration: taskCompletedStatusList[2]
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
                       ),
                     ),
                     Text(
                       'Oct 3, 2023',
                       style: TextStyle(
-                        fontSize: 15, decoration: taskCompletedStatusList[2] ? TextDecoration.lineThrough : TextDecoration.none,
+                        fontSize: 15,
+                        decoration: taskCompletedStatusList[2]
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
                       ),
                     ),
                     Text(
                       '18:00',
                       style: TextStyle(
-                        fontSize: 15, decoration: taskCompletedStatusList[2] ? TextDecoration.lineThrough : TextDecoration.none,
+                        fontSize: 15,
+                        decoration: taskCompletedStatusList[2]
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
                       ),
                     ),
                   ],

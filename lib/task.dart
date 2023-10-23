@@ -43,6 +43,7 @@ class TaskPage extends StatefulWidget {
   const TaskPage({Key? key, required this.boardTitle}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _TaskPageState createState() => _TaskPageState();
 }
 
@@ -143,15 +144,13 @@ class _TaskPageState extends State<TaskPage> {
                             actions: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context)
-                                      .pop(false);
+                                  Navigator.of(context).pop(false);
                                 },
                                 child: const Text('Cancel'),
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context)
-                                      .pop(true);
+                                  Navigator.of(context).pop(true);
                                 },
                                 child: const Text('Delete'),
                               ),
@@ -173,8 +172,7 @@ class _TaskPageState extends State<TaskPage> {
                         );
                       }
                     } else if (direction == DismissDirection.startToEnd) {
-                      final editedTask = await _showEditTaskDialog(
-                          task);
+                      final editedTask = await _showEditTaskDialog(task);
                       if (editedTask != null) {
                         setState(() {
                           tasks[index] = editedTask;
@@ -195,16 +193,17 @@ class _TaskPageState extends State<TaskPage> {
                     child: const Icon(Icons.delete, color: Colors.white),
                   ),
                   child: CheckboxListTile(
-                    title: Text(
-                      task.title,
-                      style: TextStyle(
-                        decoration:
-                            task.completed ? TextDecoration.lineThrough : null,
-                      ),
-                    ),
-                    subtitle: Column(
+                    title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text(
+                          task.title,
+                          style: TextStyle(
+                            decoration: task.completed
+                                ? TextDecoration.lineThrough
+                                : null,
+                          ),
+                        ),
                         Text(
                           task.notes,
                           style: TextStyle(
@@ -213,22 +212,33 @@ class _TaskPageState extends State<TaskPage> {
                                 : null,
                           ),
                         ),
-                        Text(
-                          dateText,
-                          style: TextStyle(
-                            decoration: task.completed
-                                ? TextDecoration.lineThrough
-                                : null,
-                          ),
-                        ),
-                        Text(
-                          // ignore: unnecessary_string_interpolations
-                          '${task.selectedTime == null ? '' : task.selectedTime!.format(context)}',
-                          style: TextStyle(
-                            decoration: task.completed
-                                ? TextDecoration.lineThrough
-                                : null,
-                          ),
+                      ],
+                    ),
+                    subtitle: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              dateText,
+                              style: TextStyle(
+                                decoration: task.completed
+                                    ? TextDecoration.lineThrough
+                                    : null,
+                              ),
+                            ),
+                            Text(
+                              task.selectedTime == null
+                                  ? ''
+                                  : task.selectedTime!.format(context),
+                              style: TextStyle(
+                                decoration: task.completed
+                                    ? TextDecoration.lineThrough
+                                    : null,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -342,8 +352,7 @@ class _TaskFormDialogState extends State<TaskFormDialog> {
                     setState(() {
                       isTodaySelected = value!;
                       if (isTodaySelected) {
-                        selectedDate =
-                            DateTime.now();
+                        selectedDate = DateTime.now();
                       }
                     });
                   },
@@ -542,8 +551,7 @@ class _EditTaskDialogState extends State<EditTaskDialog> {
           children: [
             TextButton(
               onPressed: () {
-                Navigator.of(context)
-                    .pop();
+                Navigator.of(context).pop();
               },
               child: const Text('Cancel'),
             ),
@@ -557,8 +565,7 @@ class _EditTaskDialogState extends State<EditTaskDialog> {
                   selectedTime: selectedTime,
                   completed: widget.task.completed,
                 );
-                Navigator.of(context)
-                    .pop(editedTask);
+                Navigator.of(context).pop(editedTask);
               },
               child: const Text('Save'),
             ),

@@ -44,6 +44,7 @@ class _TodayPageState extends State<TodayPage> {
                 'Today Tasks',
                 style: TextStyle(
                   fontSize: 25,
+                  color: Color.fromARGB(255, 68, 56, 80),
                 ),
               ),
             ),
@@ -54,71 +55,71 @@ class _TodayPageState extends State<TodayPage> {
             indent: 20.0,
             endIndent: 20.0,
           ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                Column(
-                  children: [
-                    Checkbox(
-                      value: isTaskCompleted,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          isTaskCompleted = value ?? false;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Tugas Math',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: isTaskCompleted
-                            ? FontWeight.normal
-                            : FontWeight.bold,
-                        decoration: isTaskCompleted
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none,
-                      ),
-                    ),
-                    Text(
-                      'Hal 90',
-                      style: TextStyle(
-                        fontSize: 15,
-                        decoration: isTaskCompleted
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none,
-                      ),
-                    ),
-                    Text(
-                      'Hari ini',
-                      style: TextStyle(
-                        fontSize: 15,
-                        decoration: isTaskCompleted
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none,
-                      ),
-                    ),
-                    Text(
-                      '19:00',
-                      style: TextStyle(
-                        fontSize: 15,
-                        decoration: isTaskCompleted
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          // Container(
+          //   width: double.infinity,
+          //   padding: const EdgeInsets.all(16.0),
+          //   child: Row(
+          //     children: [
+          //       Column(
+          //         children: [
+          //           Checkbox(
+          //             value: isTaskCompleted,
+          //             onChanged: (bool? value) {
+          //               setState(() {
+          //                 isTaskCompleted = value ?? false;
+          //               });
+          //             },
+          //           ),
+          //         ],
+          //       ),
+          //       const SizedBox(width: 16),
+          //       Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           Text(
+          //             'Tugas Math',
+          //             style: TextStyle(
+          //               fontSize: 15,
+          //               fontWeight: isTaskCompleted
+          //                   ? FontWeight.normal
+          //                   : FontWeight.bold,
+          //               decoration: isTaskCompleted
+          //                   ? TextDecoration.lineThrough
+          //                   : TextDecoration.none,
+          //             ),
+          //           ),
+          //           Text(
+          //             'Hal 90',
+          //             style: TextStyle(
+          //               fontSize: 15,
+          //               decoration: isTaskCompleted
+          //                   ? TextDecoration.lineThrough
+          //                   : TextDecoration.none,
+          //             ),
+          //           ),
+          //           Text(
+          //             'Hari ini',
+          //             style: TextStyle(
+          //               fontSize: 15,
+          //               decoration: isTaskCompleted
+          //                   ? TextDecoration.lineThrough
+          //                   : TextDecoration.none,
+          //             ),
+          //           ),
+          //           Text(
+          //             '19:00',
+          //             style: TextStyle(
+          //               fontSize: 15,
+          //               decoration: isTaskCompleted
+          //                   ? TextDecoration.lineThrough
+          //                   : TextDecoration.none,
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

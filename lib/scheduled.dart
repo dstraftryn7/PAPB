@@ -54,136 +54,136 @@ class _ScheduledPageState extends State<ScheduledPage> {
             indent: 20.0,
             endIndent: 20.0,
           ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                Column(
-                  children: [
-                    Checkbox(
-                      value: taskCompletedStatusList[0],
-                      onChanged: (bool? value) {
-                        setState(() {
-                          taskCompletedStatusList[0] = value ?? false;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Ngajar Ngaji',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: taskCompletedStatusList[0]
-                            ? FontWeight.bold
-                            : FontWeight.bold,
-                        decoration: taskCompletedStatusList[0]
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none,
-                      ),
-                    ),
-                    Text(
-                      'TPA AL-IKHLAS',
-                      style: TextStyle(
-                        fontSize: 15,
-                        decoration: taskCompletedStatusList[0]
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none,
-                      ),
-                    ),
-                    Text(
-                      'Oct 1, 2023',
-                      style: TextStyle(
-                        fontSize: 15,
-                        decoration: taskCompletedStatusList[0]
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none,
-                      ),
-                    ),
-                    Text(
-                      '16:00',
-                      style: TextStyle(
-                        fontSize: 15,
-                        decoration: taskCompletedStatusList[0]
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                Column(
-                  children: [
-                    Checkbox(
-                      value: taskCompletedStatusList[1],
-                      onChanged: (bool? value) {
-                        setState(() {
-                          taskCompletedStatusList[1] = value ?? false;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'IPA',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: taskCompletedStatusList[1]
-                            ? FontWeight.bold
-                            : FontWeight.bold,
-                        decoration: taskCompletedStatusList[1]
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none,
-                      ),
-                    ),
-                    Text(
-                      'Tugas Biologi',
-                      style: TextStyle(
-                        fontSize: 15,
-                        decoration: taskCompletedStatusList[1]
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none,
-                      ),
-                    ),
-                    Text(
-                      'Oct 3, 2023',
-                      style: TextStyle(
-                        fontSize: 15,
-                        decoration: taskCompletedStatusList[1]
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none,
-                      ),
-                    ),
-                    Text(
-                      '18:00',
-                      style: TextStyle(
-                        fontSize: 15,
-                        decoration: taskCompletedStatusList[1]
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          // Container(
+          //   width: double.infinity,
+          //   padding: const EdgeInsets.all(16.0),
+          //   child: Row(
+          //     children: [
+          //       Column(
+          //         children: [
+          //           Checkbox(
+          //             value: taskCompletedStatusList[0],
+          //             onChanged: (bool? value) {
+          //               setState(() {
+          //                 taskCompletedStatusList[0] = value ?? false;
+          //               });
+          //             },
+          //           ),
+          //         ],
+          //       ),
+          //       const SizedBox(width: 16),
+          //       Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           Text(
+          //             'Ngajar Ngaji',
+          //             style: TextStyle(
+          //               fontSize: 15,
+          //               fontWeight: taskCompletedStatusList[0]
+          //                   ? FontWeight.bold
+          //                   : FontWeight.bold,
+          //               decoration: taskCompletedStatusList[0]
+          //                   ? TextDecoration.lineThrough
+          //                   : TextDecoration.none,
+          //             ),
+          //           ),
+          //           Text(
+          //             'TPA AL-IKHLAS',
+          //             style: TextStyle(
+          //               fontSize: 15,
+          //               decoration: taskCompletedStatusList[0]
+          //                   ? TextDecoration.lineThrough
+          //                   : TextDecoration.none,
+          //             ),
+          //           ),
+          //           Text(
+          //             'Oct 1, 2023',
+          //             style: TextStyle(
+          //               fontSize: 15,
+          //               decoration: taskCompletedStatusList[0]
+          //                   ? TextDecoration.lineThrough
+          //                   : TextDecoration.none,
+          //             ),
+          //           ),
+          //           Text(
+          //             '16:00',
+          //             style: TextStyle(
+          //               fontSize: 15,
+          //               decoration: taskCompletedStatusList[0]
+          //                   ? TextDecoration.lineThrough
+          //                   : TextDecoration.none,
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Container(
+          //   width: double.infinity,
+          //   padding: const EdgeInsets.all(16.0),
+          //   child: Row(
+          //     children: [
+          //       Column(
+          //         children: [
+          //           Checkbox(
+          //             value: taskCompletedStatusList[1],
+          //             onChanged: (bool? value) {
+          //               setState(() {
+          //                 taskCompletedStatusList[1] = value ?? false;
+          //               });
+          //             },
+          //           ),
+          //         ],
+          //       ),
+          //       const SizedBox(width: 16),
+          //       Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           Text(
+          //             'IPA',
+          //             style: TextStyle(
+          //               fontSize: 15,
+          //               fontWeight: taskCompletedStatusList[1]
+          //                   ? FontWeight.bold
+          //                   : FontWeight.bold,
+          //               decoration: taskCompletedStatusList[1]
+          //                   ? TextDecoration.lineThrough
+          //                   : TextDecoration.none,
+          //             ),
+          //           ),
+          //           Text(
+          //             'Tugas Biologi',
+          //             style: TextStyle(
+          //               fontSize: 15,
+          //               decoration: taskCompletedStatusList[1]
+          //                   ? TextDecoration.lineThrough
+          //                   : TextDecoration.none,
+          //             ),
+          //           ),
+          //           Text(
+          //             'Oct 3, 2023',
+          //             style: TextStyle(
+          //               fontSize: 15,
+          //               decoration: taskCompletedStatusList[1]
+          //                   ? TextDecoration.lineThrough
+          //                   : TextDecoration.none,
+          //             ),
+          //           ),
+          //           Text(
+          //             '18:00',
+          //             style: TextStyle(
+          //               fontSize: 15,
+          //               decoration: taskCompletedStatusList[1]
+          //                   ? TextDecoration.lineThrough
+          //                   : TextDecoration.none,
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

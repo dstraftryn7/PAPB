@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
+
 import 'home.dart';
-import 'register.dart';
+import 'login.dart';
 import 'profile.dart';
+import 'register.dart';
 
 void main() {
   runApp(const UTaskApp());
@@ -19,6 +20,7 @@ class UTaskApp extends StatelessWidget {
         primarySwatch:
             generateMaterialColor(const Color.fromARGB(255, 202, 172, 205)),
       ),
+      debugShowCheckedModeBanner: false,
       home: const LoginScreen(),
       routes: {
         '/login': (context) => const LoginScreen(),

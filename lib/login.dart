@@ -1,60 +1,139 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:utask/home.dart';
+import 'package:utask/models/api_response.dart';
+import 'package:utask/models/user.dart';
+import 'package:utask/services/user_service.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<LoginScreen> {
+  final GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  TextEditingController txtEmail = TextEditingController();
+  TextEditingController txtPassword = TextEditingController();
+  bool loading = false;
+  bool _showPassword = false;
+
+  void _loginUser() async {
+    ApiResponse response = await login(txtEmail.text, txtPassword.text);
+    if (response.error == null) {
+      _saveAndRedirectToHome(response.data as User);
+    } else {
+      setState(() {
+        loading = false;
+      });
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('${response.error}')));
+    }
+  }
+
+  void _saveAndRedirectToHome(User user) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.setString('token', user.token ?? '');
+    await pref.setInt('userId', user.id ?? 0);
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const UTaskHomePage()),
+        (route) => false);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 242, 238, 243),
       body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(30.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Image.asset(
-                  'assets/logo.png',
-                  width: 150,
-                  height: 150,
-                ),
-                const SizedBox(height: 15),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Username',
-                    prefixIcon: Icon(Icons.person),
+        child: Form(
+          key: formkey,
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(30.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    'assets/logo.png',
+                    width: 150,
+                    height: 150,
                   ),
-                ),
-                const SizedBox(height: 15),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Password',
-                    prefixIcon: Icon(Icons.lock),
+                  const SizedBox(height: 15),
+                  TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    controller: txtEmail,
+                    validator: (val) =>
+                        val!.isEmpty ? 'Invalid Email Address' : null,
+                    decoration: const InputDecoration(
+                      labelText: 'Email',
+                      prefixIcon: Icon(Icons.person),
+                    ),
+                    style:
+                        const TextStyle(color: Color.fromARGB(255, 68, 56, 80)),
                   ),
-                  obscureText: true,
-                ),
-                const SizedBox(height: 15),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/home');
-                  },
-                  child: const Text(
-                    'Login',
-                    style: TextStyle(color: Colors.white),
+                  const SizedBox(height: 15),
+                  TextFormField(
+                    controller: txtPassword,
+                    obscureText: !_showPassword,
+                    validator: (val) =>
+                        val!.isEmpty ? 'Required Password' : null,
+                    decoration: InputDecoration(
+                        labelText: 'Password',
+                        prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _showPassword = !_showPassword;
+                            });
+                          },
+                          child : Icon(
+                            !_showPassword
+                            ? Icons.visibility_off_rounded
+                            : Icons.visibility_rounded,
+                            color: const Color.fromARGB(255, 68, 56, 80),
+                          )
+                        )),
+                    style:
+                        const TextStyle(color: Color.fromARGB(255, 68, 56, 80)),
                   ),
-                ),
-                const SizedBox(height: 6),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/register');
-                  },
-                  child: const Text("Don't have an account yet? Register here",
-                    style: TextStyle(color: Color.fromARGB(255, 103, 65, 136)),
+                  const SizedBox(height: 15),
+                  loading
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ElevatedButton(
+                          onPressed: () {
+                            if (formkey.currentState!.validate()) {
+                              setState(() {
+                                loading = true;
+                                _loginUser();
+                              });
+                            }
+                          },
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                  const SizedBox(height: 6),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/register');
+                    },
+                    child: RichText(
+                      text: const TextSpan(
+                        text: 'Don\'t have an account yet? Register here',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 68, 56, 80),
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

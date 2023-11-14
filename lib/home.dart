@@ -1,6 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'alltask.dart';
+import 'constant.dart';
+import 'models/board_api2.dart';
 import 'scheduled.dart';
 import 'task.dart';
 import 'today.dart';
@@ -30,12 +33,46 @@ class UTaskHomePage extends StatefulWidget {
 }
 
 class _UTaskHomePageState extends State<UTaskHomePage> {
+  TextEditingController boardController = TextEditingController();
+
   List<String> boards = [];
+  List<Map<String, dynamic>> boardo = [];
+  var jsonList;
+
+  void getBoard() async {
+    try {
+      var response = await Dio().get('$baseURL/boards');
+      if (response.statusCode == 200) {
+        // setState(() {
+        // jsonList = response.data["boards"] as List;
+        for (var obj in response.data["boards"]) {
+          int id_board = obj["id"];
+          String nama = obj["nama"];
+          setState(() {
+            boardo.add({"id": id_board, "nama": nama});
+            boards.add(nama);
+          });
+        }
+        //       for (var obj in jsonList) {
+        //   String nama = obj["nama"];
+        //   boards.add(nama);
+        // }
+        // });
+      }
+    } catch (e) {}
+  }
 
   void _addBoard(String board) {
     setState(() {
       boards.add(board);
     });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Board added successfully'),
+        duration: Duration(seconds: 2),
+      ),
+    );
   }
 
   void _removeBoard(int index) async {
@@ -67,6 +104,13 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
       setState(() {
         boards.removeAt(index);
       });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Board deleted successfully'),
+          duration: Duration(seconds: 2),
+        ),
+      );
     }
   }
 
@@ -102,6 +146,12 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    getBoard();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -125,7 +175,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
           IconButton(
             icon: const Icon(
               Icons.person,
-              color: Color.fromARGB(255, 117, 117, 117),
+              color: Color.fromARGB(255, 68, 56, 80),
             ),
             onPressed: () {
               // Fungsi untuk mengarahkan ke halaman profile.dart
@@ -135,7 +185,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
           IconButton(
             icon: const Icon(
               Icons.exit_to_app,
-              color: Color.fromARGB(255, 0, 0, 0),
+              color: Color.fromARGB(255, 68, 56, 80),
             ),
             onPressed: () {
               _showLogoutConfirmation(context);
@@ -173,9 +223,12 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(Icons.calendar_month),
+                            Icon(Icons.calendar_month,
+                                color: Color.fromARGB(255, 68, 56, 80)),
                             SizedBox(height: 4),
-                            Text('Today'),
+                            Text('Today',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 68, 56, 80))),
                           ],
                         ),
                       ),
@@ -183,8 +236,10 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
                         child: SizedBox(),
                       ),
                       Text(
-                        '1',
-                        style: TextStyle(fontSize: 15),
+                        '0',
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Color.fromARGB(255, 68, 56, 80)),
                       ),
                     ],
                   ),
@@ -208,9 +263,12 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(Icons.timer),
+                            Icon(Icons.timer,
+                                color: Color.fromARGB(255, 68, 56, 80)),
                             SizedBox(height: 4),
-                            Text('Scheduled'),
+                            Text('Scheduled',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 68, 56, 80))),
                           ],
                         ),
                       ),
@@ -218,8 +276,10 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
                         child: SizedBox(),
                       ),
                       Text(
-                        '2',
-                        style: TextStyle(fontSize: 15),
+                        '0',
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Color.fromARGB(255, 68, 56, 80)),
                       ),
                     ],
                   ),
@@ -251,9 +311,12 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(Icons.all_inbox),
+                        Icon(Icons.all_inbox,
+                            color: Color.fromARGB(255, 68, 56, 80)),
                         SizedBox(height: 4),
-                        Text('All Task'),
+                        Text('All Task',
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 68, 56, 80))),
                       ],
                     ),
                   ),
@@ -261,8 +324,9 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
                     child: SizedBox(),
                   ),
                   Text(
-                    '3',
-                    style: TextStyle(fontSize: 15),
+                    '0',
+                    style: TextStyle(
+                        fontSize: 15, color: Color.fromARGB(255, 68, 56, 80)),
                   ),
                 ],
               ),
@@ -278,6 +342,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 68, 56, 80),
                 ),
               ),
             ),
@@ -287,9 +352,9 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: ListView.builder(
-                itemCount: boards.length,
+                itemCount: boardo.length,
                 itemBuilder: (context, index) {
-                  return _buildBoardContainer(boards[index], index);
+                  return _buildBoardContainer(boardo[index], index);
                 },
               ),
             ),
@@ -303,17 +368,22 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
             builder: (BuildContext context) {
               String newBoard = '';
               return AlertDialog(
-                title: const Text('Add Board'),
+                title: const Text('Add Board',
+                    style: TextStyle(color: Color.fromARGB(255, 68, 56, 80))),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     TextField(
                       autofocus: true,
+                      controller: boardController,
                       onChanged: (value) {
                         newBoard = value;
                       },
                       decoration: const InputDecoration(
                         labelText: 'Board Name',
+                        labelStyle: TextStyle(
+                          color: Color.fromARGB(255, 68, 56, 80),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -329,6 +399,9 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
                         TextButton(
                           onPressed: () {
                             if (newBoard.isNotEmpty) {
+                              BoardController.addBoard(
+                                  context: context, nama: boardController.text);
+                              boardController.clear();
                               Navigator.pop(context, newBoard);
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -359,12 +432,12 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
     );
   }
 
-  Widget _buildBoardContainer(String boardTitle, int index) {
+  Widget _buildBoardContainer(Map<String, dynamic> boardTitle, int index) {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => TaskPage(boardTitle: boardTitle),
+            builder: (context) => TaskPage(boardTitle: boardTitle['nama']),
           ),
         );
       },
@@ -382,25 +455,30 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
           children: [
             const Icon(
               Icons.list,
-              color: Colors.black,
+              color: Color.fromARGB(255, 68, 56, 80),
             ),
             const SizedBox(width: 12),
-            Text(
-              boardTitle,
-              style: const TextStyle(
-                fontSize: 18,
+            Expanded(
+              child: Text(
+                boardTitle['nama'],
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Color.fromARGB(255, 68, 56, 80),
+                ),
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            const Spacer(),
             IconButton(
-              icon: const Icon(Icons.edit, color: Color.fromARGB(255, 0, 0, 0)),
+              icon: const Icon(Icons.edit,
+                  color: Color.fromARGB(255, 68, 56, 80)),
               onPressed: () {
+                // print(index);
                 _editBoard(index);
               },
             ),
             IconButton(
-              icon:
-                  const Icon(Icons.delete, color: Color.fromARGB(255, 0, 0, 0)),
+              icon: const Icon(Icons.delete,
+                  color: Color.fromARGB(255, 68, 56, 80)),
               onPressed: () {
                 _removeBoard(index);
               },
@@ -415,7 +493,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
     String editedBoard = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        String editedName = boards[index];
+        String editedName = boardo[index]['nama'];
         return AlertDialog(
           title: const Text('Edit Board'),
           content: TextField(
@@ -433,8 +511,10 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 Navigator.pop(context, editedName);
+                // Mengirim permintaan ke server Laravel untuk mengedit board
+                await editBoardOnServer(boardo[index]['id'], editedName);
               },
               child: const Text('Save'),
             ),
@@ -446,8 +526,28 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
     // ignore: unnecessary_null_comparison
     if (editedBoard != null) {
       setState(() {
-        boards[index] = editedBoard;
+        // boards[index] = editedBoard;
+        // boardo[index]['nama'] = editedBoard;
+        boardo = [];
+        getBoard();
       });
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Board edited successfully'),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
+// Tambahkan fungsi berikut untuk mengirim permintaan ke server Laravel
+  Future<void> editBoardOnServer(int index, String editedName) async {
+    try {
+      await Dio().put('$baseURL/boards/$index', data: {"nama": editedName});
+    } catch (e) {
+      print("Failed to edit board on server: $e");
+      // Handle error accordingly
     }
   }
 

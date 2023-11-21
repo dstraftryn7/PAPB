@@ -17,6 +17,7 @@ class _AllTasksPageState extends State<AllTasksPage> {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 242, 238, 243),
         elevation: 0,
+        iconTheme: const IconThemeData(color: Color.fromARGB(255, 68, 56, 80)),
         title: Row(children: [
           Image.asset(
             'assets/logo.png',
@@ -33,7 +34,7 @@ class _AllTasksPageState extends State<AllTasksPage> {
           )
         ]),
       ),
-      backgroundColor: const Color.fromARGB(255, 242, 238, 243),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: const Column(
         children: [
           Padding(
@@ -44,6 +45,7 @@ class _AllTasksPageState extends State<AllTasksPage> {
                 'All Tasks',
                 style: TextStyle(
                   fontSize: 25,
+                  color: Color.fromARGB(255, 68, 56, 80),
                 ),
               ),
             ),

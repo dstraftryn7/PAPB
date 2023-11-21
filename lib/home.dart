@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'alltask.dart';
 import 'constant.dart';
@@ -35,13 +36,16 @@ class UTaskHomePage extends StatefulWidget {
 class _UTaskHomePageState extends State<UTaskHomePage> {
   TextEditingController boardController = TextEditingController();
 
-  List<String> boards = [];
   List<Map<String, dynamic>> boardo = [];
+  late int id_user;
   var jsonList;
 
   void getBoard() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    id_user = pref.getInt('userId')!;
     try {
-      var response = await Dio().get('$baseURL/boards');
+      var response =
+          await Dio().get('$baseURL/boards/${pref.getInt('userId')}');
       if (response.statusCode == 200) {
         // setState(() {
         // jsonList = response.data["boards"] as List;
@@ -50,33 +54,14 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
           String nama = obj["nama"];
           setState(() {
             boardo.add({"id": id_board, "nama": nama});
-            boards.add(nama);
           });
         }
-        //       for (var obj in jsonList) {
-        //   String nama = obj["nama"];
-        //   boards.add(nama);
-        // }
-        // });
       }
     } catch (e) {}
   }
 
-  void _addBoard(String board) {
-    setState(() {
-      boards.add(board);
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Board added successfully'),
-        duration: Duration(seconds: 2),
-      ),
-    );
-  }
-
   void _removeBoard(int index) async {
-    bool shouldDelete = await showDialog(
+    var shouldDelete = await showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -90,7 +75,11 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
+                await BoardController.removeBoard(
+                    id: boardo[index]['id'].toString(), context: context);
+                boardo = [];
+                getBoard();
                 Navigator.of(context).pop(true);
               },
               child: const Text('Delete'),
@@ -102,7 +91,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
 
     if (shouldDelete == true) {
       setState(() {
-        boards.removeAt(index);
+        // boards.removeAt(index);
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -193,7 +182,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
           ),
         ]),
       ),
-      backgroundColor: const Color.fromARGB(255, 242, 238, 243),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: Column(
         children: [
           const SizedBox(height: 16),
@@ -213,7 +202,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
                   width: MediaQuery.of(context).size.width * 0.4,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 255, 255, 255),
+                    color: const Color.fromARGB(255, 242, 238, 243),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   child: const Row(
@@ -253,7 +242,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
                   width: MediaQuery.of(context).size.width * 0.4,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 255, 255, 255),
+                    color: const Color.fromARGB(255, 242, 238, 243),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   child: const Row(
@@ -301,7 +290,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
               width: MediaQuery.of(context).size.width * 0.83,
               height: 80,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 255, 255),
+                color: const Color.fromARGB(255, 242, 238, 243),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Row(
@@ -363,7 +352,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          String board = await showDialog(
+          var board = await showDialog(
             context: context,
             builder: (BuildContext context) {
               String newBoard = '';
@@ -397,11 +386,15 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
                           child: const Text('Cancel'),
                         ),
                         TextButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (newBoard.isNotEmpty) {
-                              BoardController.addBoard(
-                                  context: context, nama: boardController.text);
+                              await BoardController.addBoard(
+                                  context: context,
+                                  nama: boardController.text,
+                                  id_user: id_user);
                               boardController.clear();
+                              boardo = [];
+                              getBoard();
                               Navigator.pop(context, newBoard);
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -423,7 +416,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
 
           // ignore: unnecessary_null_comparison
           if (board != null) {
-            _addBoard(board);
+            // _addBoard(board);
           }
         },
         backgroundColor: const Color.fromARGB(255, 202, 172, 205),
@@ -437,7 +430,8 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => TaskPage(boardTitle: boardTitle['nama']),
+            builder: (context) => TaskPage(
+                boardTitle: boardTitle['nama'], boardId: boardTitle['id']),
           ),
         );
       },
@@ -447,7 +441,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
         width: MediaQuery.of(context).size.width * 0.83,
         height: 70,
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 255, 255, 255),
+          color: const Color.fromARGB(255, 242, 238, 243),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
@@ -490,7 +484,7 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
   }
 
   void _editBoard(int index) async {
-    String editedBoard = await showDialog(
+    var editedBoard = await showDialog(
       context: context,
       builder: (BuildContext context) {
         String editedName = boardo[index]['nama'];
@@ -512,9 +506,11 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
             ),
             TextButton(
               onPressed: () async {
-                Navigator.pop(context, editedName);
                 // Mengirim permintaan ke server Laravel untuk mengedit board
                 await editBoardOnServer(boardo[index]['id'], editedName);
+                boardo = [];
+                getBoard();
+                Navigator.pop(context, editedName);
               },
               child: const Text('Save'),
             ),
@@ -528,8 +524,8 @@ class _UTaskHomePageState extends State<UTaskHomePage> {
       setState(() {
         // boards[index] = editedBoard;
         // boardo[index]['nama'] = editedBoard;
-        boardo = [];
-        getBoard();
+        // boardo = [];
+        // getBoard();
       });
     }
 

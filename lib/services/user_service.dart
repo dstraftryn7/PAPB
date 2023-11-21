@@ -1,15 +1,15 @@
 import 'dart:convert';
-
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:utask/constant.dart';
 import 'package:utask/models/api_response.dart';
-import 'package:http/http.dart' as http;
 import 'package:utask/models/user.dart';
 
 //login
 Future<ApiResponse> login(String email, String password) async {
   ApiResponse apiResponse = ApiResponse();
   try {
+    SharedPreferences userData = await SharedPreferences.getInstance();
     final response = await http.post(Uri.parse(loginURL),
         headers: {'Accept': 'application/json'},
         body: {'email': email, 'password': password});
@@ -17,6 +17,9 @@ Future<ApiResponse> login(String email, String password) async {
     switch (response.statusCode) {
       case 200:
         apiResponse.data = User.fromJson(jsonDecode(response.body));
+        userData.setString('login_data', response.body);
+
+        print(userData.getString('login_data'));
         break;
       case 422:
         final errors = jsonDecode(response.body)['errors'];

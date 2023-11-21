@@ -17,6 +17,7 @@ class _ScheduledPageState extends State<ScheduledPage> {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 242, 238, 243),
         elevation: 0,
+        iconTheme: const IconThemeData(color: Color.fromARGB(255, 68, 56, 80)),
         title: Row(children: [
           Image.asset(
             'assets/logo.png',
@@ -33,10 +34,10 @@ class _ScheduledPageState extends State<ScheduledPage> {
           )
         ]),
       ),
-      backgroundColor: const Color.fromARGB(255, 242, 238, 243),
-      body: Column(
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      body: const Column(
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(top: 12.0, left: 20.0),
             child: Align(
               alignment: Alignment.centerLeft,
@@ -44,12 +45,13 @@ class _ScheduledPageState extends State<ScheduledPage> {
                 'Scheduled Tasks',
                 style: TextStyle(
                   fontSize: 25,
+                  color: Color.fromARGB(255, 68, 56, 80),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 8),
-          const Divider(
+          SizedBox(height: 8),
+          Divider(
             thickness: 2.0,
             indent: 20.0,
             endIndent: 20.0,
